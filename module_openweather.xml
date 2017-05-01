@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_openweather" default="compile.module.openweather">
+  <dirname property="module.openweather.basedir" file="${ant.file.module_openweather}"/>
+  
+  <property name="module.jdk.home.openweather" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.openweather" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.openweather" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.openweather" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="openweather.output.dir" value="${module.openweather.basedir}/build/classes/production/OpenWeather"/>
+  <property name="openweather.testoutput.dir" value="${module.openweather.basedir}/build/classes/test/OpenWeather"/>
+  
+  <path id="openweather.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="openweather.module.production.classpath">
+    <path refid="${module.jdk.classpath.openweather}"/>
+  </path>
+  
+  <path id="openweather.runtime.production.module.classpath">
+    <pathelement location="${openweather.output.dir}"/>
+  </path>
+  
+  <path id="openweather.module.classpath">
+    <path refid="${module.jdk.classpath.openweather}"/>
+    <pathelement location="${openweather.output.dir}"/>
+  </path>
+  
+  <path id="openweather.runtime.module.classpath">
+    <pathelement location="${openweather.testoutput.dir}"/>
+    <pathelement location="${openweather.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.openweather">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.openweather">
+    <patternset refid="excluded.from.module.openweather"/>
+  </patternset>
+  
+  
+  <target name="compile.module.openweather" depends="compile.module.openweather.production,compile.module.openweather.tests" description="Compile module OpenWeather"/>
+  
+  <target name="compile.module.openweather.production" depends="register.custom.compilers" description="Compile module OpenWeather; production classes"/>
+  
+  <target name="compile.module.openweather.tests" depends="register.custom.compilers,compile.module.openweather.production" description="compile module OpenWeather; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.openweather" description="cleanup module">
+    <delete dir="${openweather.output.dir}"/>
+    <delete dir="${openweather.testoutput.dir}"/>
+  </target>
+</project>
